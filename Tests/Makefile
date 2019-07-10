@@ -33,6 +33,8 @@ STRIP ?= strip
 TARGET_ARCH ?= -march=native
 # Enable or disable verbose output
 V ?= 0
+# Enable or disable libpng support
+USE_LIBPNG ?= 1
 
 # Build directories:
 BINDIR := build
@@ -42,7 +44,7 @@ OBJDIR := build/intermediate
 # Directory where executable files will be created:
 OUTDIR := build
 
-PKG_CONFIG_LIBS = libpng
+PKG_CONFIG_LIBS =
 
 # List additional library flags here:
 LDFLAGS := $(LDFLAGS)
@@ -66,6 +68,12 @@ ifeq ($(V), 1)
     V_AT =
 else
     V_AT = @
+endif
+
+# Add libpng support if enabled:
+ifeq ($(USE_LIBPNG), 1)
+    PKG_CONFIG_LIBS := libpng $(PKG_CONFIG_LIBS)
+    CFLAGS := -DUSE_PNG $(CFLAGS)
 endif
 
 # Disable dependency generation if multiple architectures are set
@@ -124,7 +132,7 @@ CPPFLAGS := $(DEPFLAGS) \
             $(shell pkg-config --cflags $(PKG_CONFIG_LIBS)) \
             $(CPPFLAGS)
 
-CFLAGS := $(JUCE_CPPFLAGS) \
+CFLAGS := $(CPPFLAGS) \
 		  $(TARGET_ARCH) \
           $(CONFIG_CFLAGS) \
           $(CFLAGS)

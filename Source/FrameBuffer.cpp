@@ -10,7 +10,7 @@
 
 
 // Opens and memory maps the frame buffer file.
-FrameBuffer::FrameBuffer(const char* bufferPath)
+FBPainter::FrameBuffer::FrameBuffer(const char* bufferPath)
 {
     errno = 0;
     bufferFD = open(bufferPath, O_RDWR);
@@ -45,35 +45,35 @@ FrameBuffer::FrameBuffer(const char* bufferPath)
 
 
 // Closes and unmaps the frame buffer file on destruction.
-FrameBuffer::~FrameBuffer()
+FBPainter::FrameBuffer::~FrameBuffer()
 {
     closeAndClearData();
 }
 
 
 // Checks if the buffer is open and ready for IO.
-bool FrameBuffer::isBufferOpen() const
+bool FBPainter::FrameBuffer::isBufferOpen() const
 {
     return bufferData != nullptr;
 }
 
 
 // Gets the frame buffer's width.
-size_t FrameBuffer::getWidth() const
+size_t FBPainter::FrameBuffer::getWidth() const
 {
     return vInfo.xres;
 }
 
 
 // Gets the frame buffer's height.
-size_t FrameBuffer::getHeight() const
+size_t FBPainter::FrameBuffer::getHeight() const
 {
     return vInfo.yres;
 }
 
 
 // Gets the color set at a specific pixel in the buffer.
-FrameBuffer::RGBPixel FrameBuffer::getPixel
+FBPainter::RGBPixel FBPainter::FrameBuffer::getPixel
 (const size_t xPos, const size_t yPos)
 {
     uint32_t* pixelPtr = getMappedPoint(xPos, yPos);
@@ -89,7 +89,7 @@ FrameBuffer::RGBPixel FrameBuffer::getPixel
 
 
 // Sets the color at a specific pixel in the buffer.
-void FrameBuffer::setPixel(const size_t xPos, const size_t yPos,
+void FBPainter::FrameBuffer::setPixel(const size_t xPos, const size_t yPos,
         const RGBPixel color)
 {
     uint32_t* pixelPtr = getMappedPoint(xPos, yPos);
@@ -103,7 +103,7 @@ void FrameBuffer::setPixel(const size_t xPos, const size_t yPos,
 
 // Unmaps the frame buffer from memory, closes the buffer file, and clears all
 // buffer information.
-void FrameBuffer::closeAndClearData()
+void FBPainter::FrameBuffer::closeAndClearData()
 {
     if (bufferData != nullptr)
     {
@@ -122,8 +122,8 @@ void FrameBuffer::closeAndClearData()
 
 
 // Gets a 32-bit frame buffer color value from RGB color values.
-uint32_t FrameBuffer::getPixelColor(const uint8_t red, const uint8_t green,
-        const uint8_t blue) const
+uint32_t FBPainter::FrameBuffer::getPixelColor
+(const uint8_t red, const uint8_t green, const uint8_t blue) const
 {
     return (red << vInfo.red.offset)
         | (green << vInfo.green.offset)
@@ -132,7 +132,7 @@ uint32_t FrameBuffer::getPixelColor(const uint8_t red, const uint8_t green,
 
 
 // Gets a 32-bit frame buffer color value from a RGBPixel object.
-uint32_t FrameBuffer::getPixelColor(const RGBPixel& pixel) const
+uint32_t FBPainter::FrameBuffer::getPixelColor(const RGBPixel& pixel) const
 {
     return getPixelColor(pixel.red, pixel.green, pixel.blue);
 }
@@ -140,7 +140,8 @@ uint32_t FrameBuffer::getPixelColor(const RGBPixel& pixel) const
 
 // Gets the address in the frame buffer memory map where a specific
 // coordinate's pixel color is stored.
-uint32_t* FrameBuffer::getMappedPoint(const size_t xPos, const size_t yPos)
+uint32_t* FBPainter::FrameBuffer::getMappedPoint
+(const size_t xPos, const size_t yPos)
 {
     if (bufferData == nullptr || xPos >= getWidth() || yPos >= getHeight())
     {

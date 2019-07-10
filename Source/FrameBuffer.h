@@ -5,17 +5,16 @@
  */
 
 #pragma once
-#include <png++/png.hpp>
+#include "Pixel.h"
 #include <linux/fb.h>
 #include <stdint.h>
 #include <stddef.h>
 
-class FrameBuffer
+namespace FBPainter { class FrameBuffer; }
+
+class FBPainter::FrameBuffer
 {
 public:
-    // LibPNG pixel color type:
-    typedef png::rgb_pixel RGBPixel;
-
     /**
      * @brief  Opens and memory maps the frame buffer file.
      *

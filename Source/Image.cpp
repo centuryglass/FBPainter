@@ -4,7 +4,7 @@
 
 
 // Loads image data on construction.
-Image::Image
+FBPainter::Image::Image
 (const char* imagePath, const size_t frameWidth, const size_t frameHeight):
     sourceImage(imagePath),
     drawnPixels(frameWidth, frameHeight),
@@ -14,35 +14,35 @@ Image::Image
 
 
 // Gets the width of the image.
-size_t Image::getWidth() const
+size_t FBPainter::Image::getWidth() const
 {
     return sourceImage.get_width();
 }
 
 
 // Gets the height of the image.
-size_t Image::getHeight() const
+size_t FBPainter::Image::getHeight() const
 {
     return sourceImage.get_height();
 }
 
 
 // Gets the image's origin's x-coordinate in the FrameBuffer.
-size_t Image::getImageXOrigin() const
+size_t FBPainter::Image::getImageXOrigin() const
 {
     return xOrigin;
 }
 
 
 // Gets the image's origin's y-coordinate in the FrameBuffer.
-size_t Image::getImageYOrigin() const
+size_t FBPainter::Image::getImageYOrigin() const
 {
     return yOrigin;
 }
 
 
 // Sets the image's origin in the FrameBuffer.
-void Image::setImageOrigin(const size_t xPos, const size_t yPos,
+void FBPainter::Image::setImageOrigin(const size_t xPos, const size_t yPos,
         FrameBuffer* frameBuffer)
 {
     if (xPos == xOrigin && yPos == yOrigin)
@@ -85,21 +85,24 @@ void Image::setImageOrigin(const size_t xPos, const size_t yPos,
     }
 }
 
-// Checks if two RGB pixel colors are equal.
-static bool equals(const Image::RGBPixel& lhs, const Image::RGBPixel& rhs)
+namespace FBPainter
 {
-    return lhs.red == rhs.red && lhs.green == rhs.green
-            && lhs.blue == rhs.blue;
-}
+    // Checks if two RGB pixel colors are equal.
+    static bool equals(const RGBPixel& lhs, const RGBPixel& rhs)
+    {
+        return lhs.red == rhs.red && lhs.green == rhs.green
+                && lhs.blue == rhs.blue;
+    }
 
-// Checks if a RGB pixel color has all zero values.
-static bool isNull(const Image::RGBPixel& pixel)
-{
-    return pixel.red == 0 && pixel.green == 0 && pixel.blue == 0;
+    // Checks if a RGB pixel color has all zero values.
+    static bool isNull(const RGBPixel& pixel)
+    {
+        return pixel.red == 0 && pixel.green == 0 && pixel.blue == 0;
+    }
 }
 
 // Draws one image pixel into a FrameBuffer.
-void Image::drawPixel
+void FBPainter::Image::drawPixel
 (const size_t xPos, const size_t yPos, FrameBuffer* frameBuffer)
 {
     // Ignore pixels outside of the image bounds:
@@ -155,7 +158,7 @@ void Image::drawPixel
 
 
 // Removes image data from one pixel in a frame buffer.
-void Image::clearPixel(const size_t xPos, const size_t yPos,
+void FBPainter::Image::clearPixel(const size_t xPos, const size_t yPos,
         FrameBuffer* frameBuffer)
 {
     if (xPos >= frameWidth || yPos >= frameHeight)
@@ -180,7 +183,7 @@ void Image::clearPixel(const size_t xPos, const size_t yPos,
 
 
 // Draws the entire image into the frame buffer.
-void Image::drawImage(FrameBuffer* frameBuffer)
+void FBPainter::Image::drawImage(FrameBuffer* frameBuffer)
 {
     const size_t xMax = std::min(frameBuffer->getWidth() - xOrigin,
             getWidth());
@@ -197,7 +200,7 @@ void Image::drawImage(FrameBuffer* frameBuffer)
 
 
 // Clears drawn image date from the frame buffer.
-void Image::clearImage(FrameBuffer* frameBuffer)
+void FBPainter::Image::clearImage(FrameBuffer* frameBuffer)
 {
     for (int y = 0; y < getHeight(); y++)
     {

@@ -9,13 +9,25 @@
 #include <algorithm>
 #include <iostream>
 #include <chrono>
-#include <time.h>
+#include <ctime>
+#include <cstdlib>
 
 
-static const std::chrono::nanoseconds loopDuration(10000000);
+static const int defaultPixelsPerSecond = 300;
 
 int main(int argc, char** argv)
 {
+    long pps = 0;
+    if (argc > 1)
+    {
+        pps = strtol(argv[1], nullptr, 10);
+    }
+    if (pps <= 0)
+    {
+        pps = defaultPixelsPerSecond;
+    }
+    static const std::chrono::nanoseconds loopDuration(1000000000 / pps);
+    using namespace FBPainter;
 
     FrameBuffer frameBuffer("/dev/fb0");
     const int frameWidth = frameBuffer.getWidth();

@@ -5,12 +5,19 @@
  */
 
 #pragma once
-
+#ifndef USE_PNG
+    #error "FBPainter::Image class included, but libpng support is disabled."
+#endif
+#include "Pixel.h"
 #include <png++/png.hpp>
 
-class FrameBuffer;
+namespace FBPainter
+{
+    class Image;
+    class FrameBuffer;
+}
 
-class Image
+class FBPainter::Image
 {
 public:
     /**
@@ -109,10 +116,6 @@ public:
      * @param frameBuffer  The frame buffer object.
      */
     void clearImage(FrameBuffer* frameBuffer);
-
-    // LibPNG pixel color types:
-    typedef png::rgba_pixel RGBAPixel;
-    typedef png::rgb_pixel RGBPixel;
 
 private:
     // Image type used to store the source image:
