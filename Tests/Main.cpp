@@ -4,12 +4,12 @@
  * @brief  Tests the FBPainter library.
  */
 
-#include "../Source/FrameBuffer.h"
-#include "../Source/Image.h"
+#include "../FBPainter.hpp"
 #include <algorithm>
 #include <iostream>
 #include <chrono>
 #include <ctime>
+#include <string>
 #include <cstdlib>
 
 
@@ -18,9 +18,19 @@ static const int defaultPixelsPerSecond = 300;
 int main(int argc, char** argv)
 {
     long pps = 0;
-    if (argc > 1)
+    std::string imageFile = "cursor.png";
+
+    for (int i = 1; i < argc; i++)
     {
-        pps = strtol(argv[1], nullptr, 10);
+        std::string arg(argv[i]);
+        if (arg.find_first_not_of("0123456789") >= arg.length())
+        {
+            pps = std::stol(arg, nullptr, 10);
+        }
+        else if (arg.find_last_of(".png") == arg.length() - 1)
+        {
+            imageFile = arg;
+        }
     }
     if (pps <= 0)
     {
@@ -34,7 +44,7 @@ int main(int argc, char** argv)
     const int frameHeight = frameBuffer.getHeight();
     std::cout << "Screen is " << frameWidth << " x " << frameHeight << "\n";
 
-    Image testImage("cursor.png", frameWidth, frameHeight);
+    Image testImage(imageFile.c_str(), frameWidth, frameHeight);
     const int xMax = frameWidth - testImage.getWidth();
     const int yPos = (frameHeight - testImage.getHeight()) / 2;
     int x = xMax / 2;
