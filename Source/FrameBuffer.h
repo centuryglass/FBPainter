@@ -5,7 +5,7 @@
  */
 
 #pragma once
-#include "Pixel.h"
+#include "RGBPixel.h"
 #include <linux/fb.h>
 #include <stdint.h>
 #include <stddef.h>

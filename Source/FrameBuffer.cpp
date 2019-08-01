@@ -134,7 +134,7 @@ uint32_t FBPainter::FrameBuffer::getPixelColor
 // Gets a 32-bit frame buffer color value from a RGBPixel object.
 uint32_t FBPainter::FrameBuffer::getPixelColor(const RGBPixel& pixel) const
 {
-    return getPixelColor(pixel.red, pixel.green, pixel.blue);
+    return getPixelColor(pixel.getRed(), pixel.getGreen(), pixel.getBlue());
 }
 
 
