@@ -154,7 +154,11 @@ build : $(OUTDIR)/$(TARGET_APP)
 
 OBJECTS_APP := $(OBJDIR)/Main.o \
                $(OBJDIR)/FrameBuffer.o \
-               $(OBJDIR)/Image.o \
+               $(OBJDIR)/Cursor.o \
+               $(OBJDIR)/RGBPixel.o \
+               $(OBJDIR)/RGBAPixel.o \
+               $(OBJDIR)/PngImage.o \
+               $(OBJDIR)/ImagePainter.o \
                $(OBJECTS_APP)
 
 $(OUTDIR)/$(TARGET_APP) : $(OBJECTS_APP) $(RESOURCES)
@@ -209,7 +213,15 @@ help:
 
 $(OBJDIR)/Main.o: \
 	Main.cpp
+$(OBJDIR)/Cursor.o: \
+	Cursor.cpp
 $(OBJDIR)/FrameBuffer.o: \
 	../Source/FrameBuffer.cpp
-$(OBJDIR)/Image.o: \
-	../Source/Image.cpp
+$(OBJDIR)/RGBPixel.o: \
+	../Source/RGBPixel.cpp
+$(OBJDIR)/RGBAPixel.o: \
+	../Source/RGBAPixel.cpp
+$(OBJDIR)/PngImage.o: \
+	../Source/PngImage.cpp
+$(OBJDIR)/ImagePainter.o: \
+	../Source/ImagePainter.cpp

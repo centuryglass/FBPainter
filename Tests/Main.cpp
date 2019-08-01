@@ -5,6 +5,8 @@
  */
 
 #include "../FBPainter.hpp"
+#include "Cursor.h"
+#include "CodeImage.h"
 #include <algorithm>
 #include <iostream>
 #include <chrono>
@@ -44,13 +46,14 @@ int main(int argc, char** argv)
     const int frameHeight = frameBuffer.getHeight();
     std::cout << "Screen is " << frameWidth << " x " << frameHeight << "\n";
 
-    Image testImage(imageFile.c_str(), frameWidth, frameHeight);
-    const int xMax = frameWidth - testImage.getWidth();
-    const int yPos = (frameHeight - testImage.getHeight()) / 2;
+    //ImagePainter painter(new PngImage(imageFile.c_str()));
+    ImagePainter painter(new CodeImage<Cursor>());
+    const int xMax = frameWidth - painter.getWidth();
+    const int yPos = (frameHeight - painter.getHeight()) / 2;
     int x = xMax / 2;
     bool moveRight = true;
-    testImage.setImageOrigin(x, yPos, &frameBuffer);
-    testImage.drawImage(&frameBuffer);
+    painter.setImageOrigin(x, yPos, &frameBuffer);
+    painter.drawImage(&frameBuffer);
 
     struct timespec sleepTimer = {0, 0};
     for(;;)
@@ -69,7 +72,7 @@ int main(int argc, char** argv)
             x--;
             moveRight = (x == 0);
         }
-        testImage.setImageOrigin(x, yPos, &frameBuffer);
+        painter.setImageOrigin(x, yPos, &frameBuffer);
         const Time loopEnd = std::chrono::high_resolution_clock::now();
         Nanoseconds timePassed = loopEnd - loopStart;
         if (timePassed < loopDuration)
