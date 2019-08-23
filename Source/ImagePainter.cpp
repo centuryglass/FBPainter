@@ -189,7 +189,7 @@ void FBPainter::ImagePainter::drawPixel
     // replaced pixel buffer:
     if (replacedPixel.isNull())
     {
-        replacedPixels[pixelIdx] = sourcePixel;
+        replacedPixels[pixelIdx] = bufferPixel;
     }
     frameBuffer->setPixel(xPos, yPos, pixelToDraw);
 }
