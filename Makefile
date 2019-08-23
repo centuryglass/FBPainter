@@ -121,7 +121,7 @@ ifeq ($(FBP_ENABLE_LIBPNG),1)
 endif
 
 # Complete set of flags used to compile source files:
-FBP_BUILD_FLAGS:=$(CFLAGS) $(CXXFLAGS) $(CPPFLAGS)
+FBP_BUILD_FLAGS:=$(FBP_CFLAGS) $(FBP_CXXFLAGS) $(FBP_CPPFLAGS)
 
 ###################### Supporting Build Targets: ##############################
 .PHONY: fbpainter
